@@ -1,0 +1,5 @@
+strawberry-graphql
+uvicorn
+pandas
+numpy
+scikit-learn
