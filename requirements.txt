@@ -1,5 +1,5 @@
-strawberry-graphql
 uvicorn
 pandas
 numpy
+strawberry-graphql[asgi]
 scikit-learn

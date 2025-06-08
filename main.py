@@ -26,11 +26,14 @@ class Query:
         self,
         edad: int,
         sexo: str,
-        sintomas: list[str]
+        sintomas: str
     ) -> Diagnostico:
-        # Vector binario para los síntomas
+        # Convertir cadena en lista separada por coma
+        lista_sintomas = [s.strip() for s in sintomas.split(",")]
+
+        # Vector binario
         entrada = np.zeros(len(columnas))
-        for sintoma in sintomas:
+        for sintoma in lista_sintomas:
             if sintoma in columnas:
                 entrada[columnas.index(sintoma)] = 1
 

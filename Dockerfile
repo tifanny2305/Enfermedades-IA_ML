@@ -1,4 +1,4 @@
-# Imagen base oficial
+# Imagen base ligera
 FROM python:3.12-slim
 
 # Establecer directorio de trabajo
@@ -7,10 +7,11 @@ WORKDIR /app
 # Copiar archivos del proyecto
 COPY . .
 
-# Instalar dependencias
+# Actualizar pip e instalar dependencias del archivo
+RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Exponer el puerto
+# Exponer puerto
 EXPOSE 8000
 
 # Comando de arranque
