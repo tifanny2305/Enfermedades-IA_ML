@@ -4,6 +4,7 @@ import pandas as pd
 import strawberry
 from starlette.middleware.cors import CORSMiddleware
 from starlette.applications import Starlette
+from starlette.responses import Response
 from strawberry.asgi import GraphQL
 
 # Paso 1: Cargar modelo completo
@@ -53,12 +54,38 @@ schema = strawberry.Schema(query=Query)
 graphql_app = GraphQL(schema)  # ⬅️ esto es la app GraphQL
 
 app = Starlette()
+# Manejo de OPTIONS para preflight
+async def handle_cors_preflight(request):
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",  # Cambia por tu dominio específico
+            "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization, Accept",
+            "Access-Control-Max-Age": "86400",
+        }
+    )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # o ["http://localhost:9000"]
+    allow_origins=[
+        "http://localhost:8080",  # Si Java corre en 8080
+        "http://localhost:9000"
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=[
+        "accept",
+        "accept-encoding", 
+        "authorization",
+        "content-type",
+        "dnt",
+        "origin",
+        "user-agent",
+        "x-csrftoken",
+        "x-requested-with",
+    ],
 )
 
-app.mount("/graphql", graphql_app) 
+# Agregar ruta OPTIONS antes del mount
+app.add_route("/graphql", handle_cors_preflight, methods=["OPTIONS"])
+app.mount("/graphql", graphql_app)
