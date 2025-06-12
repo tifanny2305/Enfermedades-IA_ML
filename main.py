@@ -61,4 +61,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/", graphql_app) 
+app.mount("/graphql", graphql_app) 
