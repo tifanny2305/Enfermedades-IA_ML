@@ -56,6 +56,7 @@ app = Starlette()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # o ["http://localhost:9000"]
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
