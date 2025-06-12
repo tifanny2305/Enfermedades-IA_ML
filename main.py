@@ -50,13 +50,14 @@ class Query:
 
 # Paso 3: Crear app
 schema = strawberry.Schema(query=Query)
-app = GraphQL(schema)
+graphql_app = GraphQL(schema)  # ⬅️ esto es la app GraphQL
 
 app = Starlette()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Cambia a ["http://localhost:4200"] o tu dominio real en producción
+    allow_origins=["*"],  # o ["http://localhost:9000"]
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/", app)
+
+app.mount("/", graphql_app) 
