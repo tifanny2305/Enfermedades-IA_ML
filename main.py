@@ -67,10 +67,7 @@ async def handle_cors_preflight(request):
     )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:8080",  # Si Java corre en 8080
-        "http://localhost:9000"
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=[
