@@ -2,6 +2,8 @@ import pickle
 import numpy as np
 import pandas as pd
 import strawberry
+from starlette.middleware.cors import CORSMiddleware
+from starlette.applications import Starlette
 from strawberry.asgi import GraphQL
 
 # Paso 1: Cargar modelo completo
@@ -49,3 +51,12 @@ class Query:
 # Paso 3: Crear app
 schema = strawberry.Schema(query=Query)
 app = GraphQL(schema)
+
+app = Starlette()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Cambia a ["http://localhost:4200"] o tu dominio real en producción
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.mount("/", app)
